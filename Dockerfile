@@ -1,6 +1,7 @@
 FROM ubuntu:20.04 as builder
 
 ARG openvpn_version="2.5.1"
+ARG resolv_version="master"
 
 WORKDIR /
 
@@ -39,6 +40,10 @@ COPY server.go .
 
 RUN go build server.go
 
+RUN curl -L https://github.com/cmadamsgit/update-systemd-resolved/archive/refs/heads/${resolv_version}.zip -o update-systemd-resolved.zip && \
+    unzip update-systemd-resolved.zip && \
+    mv /update-systemd-resolved-${resolv_version} /update-systemd-resolved
+
 FROM ubuntu:20.04
 
 ENV TZ="America/Sao_Paulo"
@@ -55,6 +60,8 @@ COPY --from=builder /openvpn/src/openvpn/openvpn /openvpn
 COPY --from=builder /server /server
 COPY entrypoint.sh /
 
-COPY update-resolv-conf /etc/openvpn/scripts/
+#COPY update-resolv-conf /etc/openvpn/scripts/
+RUN apt-get install -y --no-install-recommends systemd iproute2
+COPY --from=builder /update-systemd-resolved/update-systemd-resolved /etc/openvpn/scripts/update-resolv-conf
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

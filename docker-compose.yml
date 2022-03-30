@@ -1,15 +1,15 @@
 version: "3.0"
 services:
   vpn-client:
-    image: rdvencioneck/aws-vpn-client
+    image: aws-vpn-client
     container_name: aws-vpn-client
     network_mode: "host"
     restart: "no"
     volumes:
       - "./vpn.conf:/vpn.conf:rw"
-      - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "/etc/resolv.conf:/etc/resolv.conf:rw"
+      - "/run/dbus:/run/dbus:ro"
+      - "/dev/log:/dev/log"
     devices:
       - "/dev/net/tun:/dev/net/tun"
     cap_add:
