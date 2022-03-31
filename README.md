@@ -1,3 +1,11 @@
+# OpenVPN AWS VPN Linux Client in Docker for systemd-resolved
+
+This is a modified container that includes a slightly modified version
+of [update-systemd-resolved](https://github.com/jonathanio/update-systemd-resolved)
+to notify systemd-resolved of DNS server changes, rather than
+overwriting /etc/resolv.conf. Here's the [original
+setup](https://github.com/rdvencioneck/aws-vpn-client-docker).
+
 # OpenVPN AWS VPN Linux Client in Docker
 
 This is a Docker implementation of the [original](https://github.com/samm-git/aws-vpn-client) AWS VPN client PoC with OpenVPN using SAML authentication. The goal is to have an easy to consume Linux client.
