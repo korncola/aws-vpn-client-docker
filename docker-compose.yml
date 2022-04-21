@@ -1,7 +1,7 @@
 version: "3.0"
 services:
   vpn-client:
-    image: docker.io/cmadams/aws-vpn-client
+    image: docker.io/cmadams/aws-vpn-client:latest
     container_name: aws-vpn-client
     network_mode: "host"
     restart: "no"
@@ -14,3 +14,5 @@ services:
       - "/dev/net/tun:/dev/net/tun"
     cap_add:
       - NET_ADMIN
+    security_opt:
+      - "label=disable"
