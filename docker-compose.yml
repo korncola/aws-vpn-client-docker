@@ -5,6 +5,7 @@ services:
     container_name: aws-vpn-client
     network_mode: "host"
     restart: "no"
+    privileged: true
     volumes:
       - "./vpn.conf:/vpn.conf:rw"
       - "/etc/localtime:/etc/localtime:ro"
